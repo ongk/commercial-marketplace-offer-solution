@@ -61,6 +61,28 @@ function GetPlanDurableId {
     return ""
 }
 
+function GetProductListingDurableId {
+    param (
+        [String] $productDurableId
+    )
+
+    $headers = GetHeaders
+    $response = Invoke-WebRequest -Method GET -Headers $headers -Uri "$baseUrl/resource-tree/$productDurableId" -ContentType "application/json" -UseBasicParsing
+    if ($response.StatusCode -eq 200)
+    {
+        $content = $response.Content | ConvertFrom-Json
+        foreach ($resource in $content.resources)
+        {
+            if ($resource.'$schema'.StartsWith("https://product-ingestion.azureedge.net/schema/listing/"))
+            {
+                return $resource.id
+            }
+        }
+    }
+
+    return ""
+}
+
 function GetConfigureJobStatus {
     param (
         [String] $jobId
@@ -270,9 +292,16 @@ function UpdateProduct {
         $productResources
     )
 
+    $productListingDurableId = GetProductListingDurableId -productDurableId $productDurableId
+
     foreach ($resource in $productResources)
     {
         $resource | Add-Member -Name "product" -value $productDurableId -MemberType NoteProperty
+
+        if ($resource.'$schema'.StartsWith("https://product-ingestion.azureedge.net/schema/listing-asset/"))
+        {
+            $resource | Add-Member -Name "listing" -value $productListingDurableId -MemberType NoteProperty
+        }
     }
 
     PostConfigure -configureSchema $configureSchema -resources $productResources
@@ -294,17 +323,6 @@ function UpdatePlan {
 
     PostConfigure -configureSchema $configureSchema -resources $planResources
 }
-
-# 0. Check for existing product: "$url/product?externalId=$externalId"
-# 1. If product does not exist, create the product
-# 2. Poll for request status: "$url/$jobId/status". Check for $response.jobStatus == "completed"
-# 3. If $response.jobResult == "succeeded", get configure request details, including the offer ID: "$url/$jobId"
-# 4. If $response.jobResult != "succeeded", return and log the error message from $response.errors array.
-# 5. Get product ID: $productId = $response.resources[0].id
-# 6. Create a plan and repeat steps 2-4. Repeat for any additional plans.
-# 7. Get plan ID: $planId = $response.resources[0].id
-# 8. Update product and plan details. Repeat steps 2-4.
-# 9. If product does exist, update the product and plan details. Repeat steps 6-8 for any new plans.
 
 if (Test-Path -Path $productConfigurationFile)
 {
