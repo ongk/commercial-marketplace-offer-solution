@@ -10,7 +10,7 @@ Param (
     [Parameter(Mandatory = $True, HelpMessage = "Product external ID")]
     [String] $productExternalId,
     [Parameter(Mandatory = $False, HelpMessage = "Target type: preview or live")]
-    [String] $targetType = "preview",
+    [String] $targetType = "preview"
 )
 
 $baseUrl = "https://graph.microsoft.com/rp/product-ingestion"
@@ -137,15 +137,14 @@ function Publish {
         [String] $targetType
     )
 
-    $resources = @(
-        @{
-            "`$schema" = "https://product-ingestion.azureedge.net/schema/submission/2022-03-01-preview2"
-            "product" = $productDurableId
-            "target" = @{
-                "targetType" = $targetType
-            }
+    $submission = @{
+        "`$schema" = "https://product-ingestion.azureedge.net/schema/submission/2022-03-01-preview2"
+        "product" = $productDurableId
+        "target" = @{
+            "targetType" = $targetType
         }
-    ) | ConvertTo-Json -Depth 10
+    }
+    $resources = @($submission)
 
     PostConfigure -configureSchema $configureSchema -resources $resources
 }
@@ -160,7 +159,7 @@ try
     }
     else
     {
-        Write-Output "Product $externalId found. Publishing to $targetType."
+        Write-Output "Product $productExternalId found: $productDurableId. Publishing to $targetType."
         Publish -configureSchema $configureSchema -productDurableId $productDurableId -targetType $targetType
     }
 }
