@@ -324,7 +324,7 @@
                                         "sourceType": "sharedImageGallery",
                                         "sharedImage": {
                                             "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-                                            "resourceId": "/subscriptions/1bb6badf-d123-41a7-bda0-8a9e8d9f1b67/resourceGroups/win11vs2019-rg/providers/Microsoft.Compute/galleries/TestCMGallery/images/TestWinVM/versions/1.0.0"
+                                            "resourceId": "/subscriptions/66cee5af-ac62-4e46-a779-feff32a4f509/resourceGroups/azmp-test-rg/providers/Microsoft.Compute/galleries/TestVMGallery/images/TestVMWin/versions/1.0.0"
                                         }
                                     }
                                 }
@@ -551,7 +551,7 @@
                                         "sourceType": "sharedImageGallery",
                                         "sharedImage": {
                                             "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-                                            "resourceId": "/subscriptions/1bb6badf-d123-41a7-bda0-8a9e8d9f1b67/resourceGroups/win11vs2019-rg/providers/Microsoft.Compute/galleries/TestCMGallery/images/TestWinVM/versions/1.0.0"
+                                            "resourceId": "/subscriptions/66cee5af-ac62-4e46-a779-feff32a4f509/resourceGroups/azmp-test-rg/providers/Microsoft.Compute/galleries/TestVMGallery/images/TestVMWin/versions/1.0.0"
                                         }
                                     }
                                 }
