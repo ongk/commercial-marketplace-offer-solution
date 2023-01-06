@@ -5,7 +5,7 @@ name: Virtual Machine PR
 on:
   workflow_dispatch:
   pull_request:
-    branches: [ api-action-test ]
+    branches: [ main ]
 
 env:
   APPLICATION_DIRECTORY: marketplace/virtual-machine/basic-windows-vm
