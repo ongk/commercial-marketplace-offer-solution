@@ -23,3 +23,11 @@ jobs:
           command: configure
           configFilePath: "configuration.json"
           workingDirectory: ${{ env.APPLICATION_DIRECTORY }}
+      - name: Publish Offer to Preview
+        uses: ./.github/actions/product-ingestion-api
+        with:
+          azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
+          command: publish
+          productExternalId: testpi-vm
+          targetType: preview
+          workingDirectory: ${{ env.APPLICATION_DIRECTORY }}
