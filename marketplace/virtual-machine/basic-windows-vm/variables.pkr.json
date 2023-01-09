@@ -20,7 +20,7 @@
     },
     "gallery_name": {
       "type": "string",
-      "default": "azmp_images"
+      "default": "MySharedImageGallery"
     },
     "image_name": {
       "type": "string",
