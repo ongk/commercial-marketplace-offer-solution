@@ -18,9 +18,17 @@
       "type": "string",
       "default": "vhds"
     },
-    "image_vhd_name": {
+    "gallery_name": {
       "type": "string",
-      "default": "MyImage"
+      "default": "azmp_images"
+    },
+    "image_name": {
+      "type": "string",
+      "default": "ContosoWindowsVM"
+    },
+    "image_version": {
+      "type": "string",
+      "default": "0.0.1"
     },
     "region": {
       "type": "string",
@@ -29,6 +37,14 @@
     "resource_group_name" : {
       "type": "string",
       "default": "MyResourceGroup"
+    },
+    "storage_account_type" : {
+      "type": "string",
+      "default": "Premium_LRS"
+    },
+    "subscription": {
+      "type": "string",
+      "default": ""
     },
     "temp_resource_group_name": {
       "type": "string",
