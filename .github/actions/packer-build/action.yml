@@ -41,6 +41,7 @@ runs:
         {
           # $uri = ($output[-1].Split('\n') | Where-Object { $_ -like '*OSDiskUri:*' }).split(' ')[-1]
           $resourceId = ($output[-1].Split('\n') | Where-Object { $_ -like '*ManagedImageSharedImageGalleryId:*' }).split(' ')[-1]
+          Write-Output $resourceId
 
           # if ($uri -ne "")
           # {
