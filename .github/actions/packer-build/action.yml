@@ -36,28 +36,28 @@ runs:
       shell: pwsh
       working-directory: ${{ inputs.workingDirectory }}
       run: |
-        $output = packer -machine-readable build -force -color=false ${{ inputs.target }}
-        try
-        {
-          $uri = ($output[-1].Split('\n') | Where-Object { $_ -like '*OSDiskUri:*'}).split(' ')[-1]
-          $resourceId = ($output[-1].Split('\n') | Where-Object { $_ -like '*ManagedImageSharedImageGalleryId:*'}).split(' ')[-1]
+        packer -machine-readable build -force -color=false ${{ inputs.target }}
+        # try
+        # {
+        #   $uri = ($output[-1].Split('\n') | Where-Object { $_ -like '*OSDiskUri:*'}).split(' ')[-1]
+        #   $resourceId = ($output[-1].Split('\n') | Where-Object { $_ -like '*ManagedImageSharedImageGalleryId:*'}).split(' ')[-1]
 
-          if ($uri -ne "")
-          {
-            Write-Output "::set-output name=vhdUri::$uri"
-          }
-          elseif ($resourceId -ne "")
-          {
-            Write-Output "::set-output name=sharedImageId::$resourceId"
-          }
-          else
-          {
-            Exit 1
-          }
-        }
-        catch
-        {
-          Write-Error "There was an issue creating your virtual machine offer, see below for details:"
-          Write-Output $output
-          Exit 1
-        }
+        #   if ($uri -ne "")
+        #   {
+        #     Write-Output "::set-output name=vhdUri::$uri"
+        #   }
+        #   elseif ($resourceId -ne "")
+        #   {
+        #     Write-Output "::set-output name=sharedImageId::$resourceId"
+        #   }
+        #   else
+        #   {
+        #     Exit 1
+        #   }
+        # }
+        # catch
+        # {
+        #   Write-Error "There was an issue creating your virtual machine offer, see below for details:"
+        #   Write-Output $output
+        #   Exit 1
+        # }
