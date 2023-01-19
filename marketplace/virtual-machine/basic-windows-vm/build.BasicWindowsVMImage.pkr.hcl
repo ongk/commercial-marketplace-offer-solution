@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 build {
 
-  sources = ["source.azure-arm.windowsvhd"]
+  sources = ["source.azure-arm.windowssig"]
 
   # Install tools
   provisioner "powershell" {

@@ -16,6 +16,9 @@ outputs:
   vhdUri:
     description: The image VHD URI
     value: ${{ steps.run-packer.outputs.vhdUri }}
+  sharedImageId:
+    description: The shared gallery image ID for the managed image
+    value: ${{ steps.run-packer.outputs.sharedImageId }}
 runs:
   using: composite
   steps:
@@ -36,11 +39,24 @@ runs:
       shell: pwsh
       working-directory: ${{ inputs.workingDirectory }}
       run: |
-        $output = packer -machine-readable build -color=false ${{ inputs.target }}
+        $output = packer -machine-readable build -force -color=false ${{ inputs.target }}
         try
         {
-          $uri = ($output[-1].Split('\n') | Where-Object { $_ -like '*OSDiskUri:*'}).split(' ')[-1]
-          if ("" -eq $uri) { Exit 1 } else { Write-Output "::set-output name=vhdUri::$uri" }
+          $uri = ($output[-1].Split('\n') | Where-Object { $_ -like '*OSDiskUri:*' }).split(' ')[-1]
+          $resourceId = ($output[-1].Split('\n') | Where-Object { $_ -like '*ManagedImageSharedImageGalleryId:*' }).split(' ')[-1]
+
+          if ($uri -ne "")
+          {
+            Write-Output "::set-output name=vhdUri::$uri"
+          }
+          elseif ($resourceId -ne "")
+          {
+            Write-Output "::set-output name=sharedImageId::$resourceId"
+          }
+          else
+          {
+            Exit 1
+          }
         }
         catch
         {
